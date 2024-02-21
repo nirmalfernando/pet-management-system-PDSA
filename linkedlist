@@ -1,0 +1,218 @@
+import java.util.Scanner;
+
+class Pet {
+    String name;
+    String breed;
+    int age;
+    String ownerName;
+    String contact;
+
+    public Pet(String name, String breed, int age, String ownerName, String contact) {
+        this.name = name;
+        this.breed = breed;
+        this.age = age;
+        this.ownerName = ownerName;
+        this.contact = contact;
+    }
+
+    public String toString() {
+        return "Name: " + name + ", Breed: " + breed + ", Age: " + age + ", Owner: " + ownerName + ", Contact: " + contact;
+    }
+}
+
+class Node {
+    Pet pet;
+    Node prev;
+    Node next;
+
+    public Node(Pet pet) {
+        this.pet = pet;
+        this.prev = null;
+        this.next = null;
+    }
+}
+
+class PetManagementSystem {
+    Node head;
+    Node tail;
+
+    public PetManagementSystem() {
+        head = null;
+        tail = null;
+    }
+
+    public void addPet(Pet pet) {
+        Node newNode = new Node(pet);
+        if (head == null) {
+            head = newNode;
+            tail = newNode;
+        } else {
+            tail.next = newNode;
+            newNode.prev = tail;
+            tail = newNode;
+        }
+    }
+
+    public void displayAllPets() {
+        if (head == null) {
+            System.out.println("No pets registered yet.");
+            return;
+        }
+        System.out.println("List of all pets:");
+        Node current = head;
+        while (current != null) {
+            System.out.println(current.pet);
+            current = current.next;
+        }
+    }
+
+    public void updatePet(String name, Pet updatedPet) {
+        Node current = head;
+        while (current != null) {
+            if (current.pet.name.equals(name)) {
+                current.pet = updatedPet;
+                return;
+            }
+            current = current.next;
+        }
+        System.out.println("Pet with name " + name + " not found.");
+    }
+
+    public void removePet(String name) {
+        if (head == null) {
+            System.out.println("No pets registered yet.");
+            return;
+        }
+
+        if (head.pet.name.equals(name)) {
+            head = head.next;
+            if (head == null) {
+                tail = null;
+            }
+            return;
+        }
+
+        Node current = head;
+        while (current.next != null) {
+            if (current.next.pet.name.equals(name)) {
+                current.next = current.next.next;
+                if (current.next == null) {
+                    tail = current;
+                }
+                return;
+            }
+            current = current.next;
+        }
+        System.out.println("Pet with name " + name + " not found.");
+    }
+
+    public void searchPet(String name) {
+        Node current = head;
+        while (current != null) {
+            if (current.pet.name.equals(name)) {
+                System.out.println("Pet found: " + current.pet);
+                return;
+            }
+            current = current.next;
+        }
+        System.out.println("Pet with name " + name + " not found.");
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        PetManagementSystem petSystem = new PetManagementSystem();
+
+        boolean exit = false;
+        while (!exit) {
+            System.out.println("\nPet Management System");
+            System.out.println("1. Add a pet");
+            System.out.println("2. Display all pets");
+            System.out.println("3. Update a pet");
+            System.out.println("4. Remove a pet");
+            System.out.println("5. Search for a pet");
+            System.out.println("6. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = 0;
+            try {
+                choice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline
+            } catch (Exception e) {
+                System.out.println("Invalid input! Please enter a number.");
+                scanner.nextLine(); // Consume newline
+                continue;
+            }
+
+            switch (choice) {
+                case 1:
+                    System.out.println("\nEnter pet details:");
+                    System.out.print("Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Breed: ");
+                    String breed = scanner.nextLine();
+                    System.out.print("Age: ");
+                    int age = 0;
+                    try {
+                        age = scanner.nextInt();
+                        scanner.nextLine(); // Consume newline
+                    } catch (Exception e) {
+                        System.out.println("Invalid input! Please enter a number for age.");
+                        scanner.nextLine(); // Consume newline
+                        continue;
+                    }
+                    System.out.print("Owner's Name: ");
+                    String ownerName = scanner.nextLine();
+                    System.out.print("Contact: ");
+                    String contact = scanner.nextLine();
+                    if (name.isEmpty() || breed.isEmpty() || ownerName.isEmpty() || contact.isEmpty()) {
+                        System.out.println("Invalid input! Please provide all details.");
+                        continue;
+                    }
+                    Pet newPet = new Pet(name, breed, age, ownerName, contact);
+                    petSystem.addPet(newPet);
+                    System.out.println("Pet added successfully!");
+                    break;
+                case 2:
+                    petSystem.displayAllPets();
+                    break;
+                case 3:
+                    System.out.print("Enter the name of the pet to update: ");
+                    String updateName = scanner.nextLine();
+                    System.out.println("\nEnter updated pet details:");
+                    System.out.print("Name: ");
+                    String updatedName = scanner.nextLine();
+                    System.out.print("Breed: ");
+                    String updatedBreed = scanner.nextLine();
+                    System.out.print("Age: ");
+                    int updatedAge = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Owner's Name: ");
+                    String updatedOwnerName = scanner.nextLine();
+                    System.out.print("Contact: ");
+                    String updatedContact = scanner.nextLine();
+                    Pet updatedPet = new Pet(updatedName, updatedBreed, updatedAge, updatedOwnerName, updatedContact);
+                    petSystem.updatePet(updateName, updatedPet);
+                    break;
+                case 4:
+                    System.out.print("Enter the name of the pet to remove: ");
+                    String removeName = scanner.nextLine();
+                    petSystem.removePet(removeName);
+                    break;
+                case 5:
+                    System.out.print("Enter the name of the pet to search: ");
+                    String searchName = scanner.nextLine();
+                    petSystem.searchPet(searchName);
+                    break;
+                case 6:
+                    exit = true;
+                    System.out.println("Exiting the program.");
+                    break;
+                default:
+                    System.out.println("Invalid choice! Please enter a valid option.");
+            }
+        }
+
+        scanner.close();
+    }
+}
