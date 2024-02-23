@@ -1,0 +1,103 @@
+class Pet {
+
+    int petID;
+    String petName;
+    String ownerName;
+    int age;
+    String petType;
+
+    public Pet(int petID, String petName, String ownerName, int age, String petType) {
+        this.petID = petID;
+        this.petName = petName;
+        this.ownerName = ownerName;
+        this.age = age;
+        this.petType = petType;
+    }
+
+    public String toString() {
+        return "Pet ID: " + petID + ", Pet Name: " + petName + ", Owner's Name: " + ownerName
+                + ", Age: " + age + ", Pet Type: " + petType;
+    }
+}
+
+class Node {
+
+    Pet pet;
+    Node next;
+    Node prev;
+
+    public Node(Pet pet) {
+        this.pet = pet;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+class DoublyLinkedList {
+
+    Node head;
+
+    public void addPet(Pet pet) {
+        Node newNode = new Node(pet);
+        if (head == null) {
+            head = newNode;
+        } else {
+            Node current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.prev = current;
+        }
+    }
+
+    public void updatePet(int petID, Pet newPet) {
+        Node current = head;
+        while (current != null) {
+            if (current.pet.petID == petID) {
+                current.pet = newPet;
+                return;
+            }
+            current = current.next;
+        }
+    }
+
+    public void deletePet(int petID) {
+        Node current = head;
+        while (current != null) {
+            if (current.pet.petID == petID) {
+                if (current.prev == null) {
+                    head = current.next;
+                } else {
+                    current.prev.next = current.next;
+                }
+                if (current.next != null) {
+                    current.next.prev = current.prev;
+                }
+                return;
+            }
+            current = current.next;
+        }
+    }
+
+    public String printPets() {
+        StringBuilder sb = new StringBuilder();
+        Node current = head;
+        while (current != null) {
+            sb.append(current.pet.toString()).append("\n");
+            current = current.next;
+        }
+        return sb.toString();
+    }
+
+    public Pet findPet(int petID) {
+        Node current = head;
+        while (current != null) {
+            if (current.pet.petID == petID) {
+                return current.pet;
+            }
+            current = current.next;
+        }
+        return null;
+    }
+}
