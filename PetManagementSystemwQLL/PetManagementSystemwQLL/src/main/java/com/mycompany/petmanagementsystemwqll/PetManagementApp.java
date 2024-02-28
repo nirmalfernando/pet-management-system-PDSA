@@ -17,7 +17,7 @@ import static javax.swing.WindowConstants.DISPOSE_ON_CLOSE;
 import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 
 class Pet {
-
+//To represent pet properties
     int petID;
     String petName;
     String ownerName;
@@ -39,7 +39,7 @@ class Pet {
 }
 
 class Node {
-
+//To represent a node in the Doubly linked list for storing pet objects
     Pet pet;
     Node next;
     Node prev;
@@ -52,10 +52,10 @@ class Node {
 }
 
 class DoublyLinkedList {
-
+//Implementing Doubly LinkedList data structure to manage pet objects
     Node head;
 
-    public void addPet(Pet pet) {
+    public void addPet(Pet pet) { //To add a pet to the linkedlist
         Node newNode = new Node(pet);
         if (head == null) {
             head = newNode;
@@ -69,7 +69,7 @@ class DoublyLinkedList {
         }
     }
 
-    public void updatePet(int petID, Pet newPet) {
+    public void updatePet(int petID, Pet newPet) { //To update existing pet data in the linkedlist
         Node current = head;
         while (current != null) {
             if (current.pet.petID == petID) {
@@ -80,7 +80,7 @@ class DoublyLinkedList {
         }
     }
 
-    public void deletePet(int petID) {
+    public void deletePet(int petID) { //To delete an existing pet using the pet ID
         Node current = head;
         while (current != null) {
             if (current.pet.petID == petID) {
@@ -98,7 +98,7 @@ class DoublyLinkedList {
         }
     }
 
-    public String printPets() {
+    public String printPets() { //To print pet details
         StringBuilder sb = new StringBuilder();
         Node current = head;
         while (current != null) {
@@ -108,7 +108,7 @@ class DoublyLinkedList {
         return sb.toString();
     }
 
-    public Pet findPet(int petID) {
+    public Pet findPet(int petID) { //To find the pet with respective to its ID
         Node current = head;
         while (current != null) {
             if (current.pet.petID == petID) {
@@ -120,7 +120,7 @@ class DoublyLinkedList {
     }
 }
 class apoiment {
-
+//To represent appointment properties
     int petID;
     int apoimentid;
     String ownerName;
@@ -141,7 +141,7 @@ class apoiment {
     }
 }
 class appoimrntnode {
-
+//To represent a node in the Doubly linked list for storing appointment objects
     apoiment apoiment;
     appoimrntnode next;
     appoimrntnode prev;
@@ -153,7 +153,7 @@ class appoimrntnode {
     }
 }
 class apque {
-
+//Implementing operations to add, print, and find appointments in a Doubly linked list
     appoimrntnode head;
 
     public void addapoinment(apoiment apoiment) {
@@ -170,35 +170,6 @@ class apque {
             newNode.prev = current;
         }
     }
-
-//    public void updatePet(int petID, Pet newPet) {
-//        appoimrntnode current = head;
-//        while (current != null) {
-//            if (current.pet.petID == petID) {
-//                current.pet = newPet;
-//                return;
-//            }
-//            current = current.next;
-//        }
-//    }
-
-//    public void deletePet(int petID) {
-//        appoimrntnode current = head;
-//        while (current != null) {
-//            if (current.pet.petID == petID) {
-//                if (current.prev == null) {
-//                    head = current.next;
-//                } else {
-//                    current.prev.next = current.next;
-//                }
-//                if (current.next != null) {
-//                    current.next.prev = current.prev;
-//                }
-//                return;
-//            }
-//            current = current.next;
-//        }
-//    }
 
     public String printPets() {
         StringBuilder sb = new StringBuilder();
@@ -224,7 +195,7 @@ class apque {
 
 
 public class PetManagementApp extends JFrame implements ActionListener {
-
+//GUI for the pet management application
     JTextField petIDField, petNameField, ownerNameField, ageField, petTypeField;
     JButton addButton, updateButton, deleteButton, printButton, scheduleButton, appointmentButton;
     JTextArea petDetailsArea;
@@ -292,7 +263,7 @@ public class PetManagementApp extends JFrame implements ActionListener {
     }
 appoimrntnode current;
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == addButton) {
+        if (e.getSource() == addButton) { //Adding pet details to the doubly linkedlist when the add button is clicked
             int petID = Integer.parseInt(petIDField.getText());
             String petName = petNameField.getText();
             String ownerName = ownerNameField.getText();
@@ -301,7 +272,7 @@ appoimrntnode current;
             Pet newPet = new Pet(petID, petName, ownerName, age, petType);
             petList.addPet(newPet);
             petDetailsArea.setText(petList.printPets());
-        } else if (e.getSource() == updateButton) {
+        } else if (e.getSource() == updateButton) { //Updating an existing pet detail in the linkedlist using pet ID when the update button is clicked
             int petID = Integer.parseInt(petIDField.getText());
             String petName = petNameField.getText();
             String ownerName = ownerNameField.getText();
@@ -310,11 +281,11 @@ appoimrntnode current;
             Pet updatedPet = new Pet(petID, petName, ownerName, age, petType);
             petList.updatePet(petID, updatedPet);
             petDetailsArea.setText(petList.printPets());
-        } else if (e.getSource() == deleteButton) {
+        } else if (e.getSource() == deleteButton) { //Deleting a pet data set from the linked list using pet ID when the delete button is clicked
             int petID = Integer.parseInt(petIDField.getText());
             petList.deletePet(petID);
             petDetailsArea.setText(petList.printPets());
-        } else if (e.getSource() == printButton) {
+        } else if (e.getSource() == printButton) { //Redirecting to the pet details window to show pet details when the print button is clicked
             int petID = Integer.parseInt(petIDField.getText());
             Pet pet = petList.findPet(petID);
             if (pet != null) {
@@ -325,7 +296,7 @@ appoimrntnode current;
             } else {
                 JOptionPane.showMessageDialog(this, "Pet not found!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-        } else if (e.getSource() == scheduleButton) {
+        } else if (e.getSource() == scheduleButton) { //Scheduling an appointment and assigning an appointment ID to the pet ID when the schedule button is clicked
             int petID = Integer.parseInt(petIDField.getText());
             String ownerName = ownerNameField.getText();
             LocalDateTime appointmentTime = LocalDateTime.now();
@@ -343,7 +314,7 @@ appoimrntnode current;
             current = current.next;
             }
         } 
-        else if (e.getSource() == appointmentButton) {
+        else if (e.getSource() == appointmentButton) { //Redirecting to the appointment window to show appointment details when the appointment button is clicked
             int petID = Integer.parseInt(petIDField.getText());
             appDetailsWindow appointmentDetails = new appDetailsWindow();
             appointmentDetails.appDetailsWindow(appointmentQueue, petID);
@@ -356,7 +327,7 @@ appoimrntnode current;
 }
 
 class PetDetailsWindow extends JFrame {
-
+//GUI for the pet details showcasing window
     JLabel petIDLabel, petNameLabel, ownerNameLabel, ageLabel, petTypeLabel;
     Pet pets;
     int petId;
@@ -383,7 +354,7 @@ class PetDetailsWindow extends JFrame {
         add(petTypeLabel);
 
         JButton previousButton = new JButton("Previous");
-        previousButton.addActionListener(new ActionListener() {
+        previousButton.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) {
                 showPreviousPet();
@@ -392,7 +363,7 @@ class PetDetailsWindow extends JFrame {
         add(previousButton);
 
         JButton nextButton = new JButton("Next");
-        nextButton.addActionListener(new ActionListener() {
+        nextButton.addActionListener(new ActionListener() { 
             @Override
             public void actionPerformed(ActionEvent e) {
                 showNextPet();
@@ -401,7 +372,7 @@ class PetDetailsWindow extends JFrame {
         add(nextButton);
 
         JButton returnButton = new JButton("Return to Main Form");
-        returnButton.addActionListener(new ActionListener() {
+        returnButton.addActionListener(new ActionListener() { //Redirecting to the pet management application form
             @Override
             public void actionPerformed(ActionEvent e) {
                 hide();
@@ -423,7 +394,7 @@ class PetDetailsWindow extends JFrame {
         updateLabels();
     }
 
-    private void showPreviousPet() {
+    private void showPreviousPet() { //Code to navigate to the previous pet's data
         if (petId > 0) {
             petId--;
             updateLabels();
@@ -432,7 +403,7 @@ class PetDetailsWindow extends JFrame {
         }
     }
 
-    private void showNextPet() {
+    private void showNextPet() { //Code to navigate to the next pet's data
         try {
             if (petId > 0) {
                 petId++;
@@ -455,7 +426,7 @@ class PetDetailsWindow extends JFrame {
     }
 }
 class appDetailsWindow extends JFrame {
-
+//GUI for the appointment details showcasing window
     JLabel petIDLabel, petNameLabel, ownerNameLabel, ageLabel, petTypeLabel;
     Pet pets;
     int petId;
@@ -523,7 +494,7 @@ class appDetailsWindow extends JFrame {
         updateLabels();
     }
 
-    private void showPreviousap() {
+    private void showPreviousap() { //Code to navigate to the previous appointment's data
         if (petId > 0) {
             petId--;
             updateLabels();
@@ -532,7 +503,7 @@ class appDetailsWindow extends JFrame {
         }
     }
 
-    private void showNextap() {
+    private void showNextap() { //Code to navigate to the next appointment's data
         try {
             if (petId > 0) {
                 petId++;
