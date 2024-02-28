@@ -449,9 +449,6 @@ class appDetailsWindow extends JFrame {
         ageLabel = new JLabel("Age: ");
         add(ageLabel);
 
-        petTypeLabel = new JLabel("Pet Type: ");
-        add(petTypeLabel);
-
         JButton previousButton = new JButton("Previous");
         previousButton.addActionListener(new ActionListener() {
             @Override
@@ -522,7 +519,6 @@ class appDetailsWindow extends JFrame {
         petNameLabel.setText("Appointment ID: " + ap.apoimentid);
         ownerNameLabel.setText("Owner's Name: " + ap.ownerName);
         ageLabel.setText("Appointment Time: " + ap.appointmentTime);
-        petTypeLabel.setText("Pet Type: " + "");
     }
 }
 
